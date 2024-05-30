@@ -4,50 +4,57 @@
 
 {% block content %}
 
-   <section class="vh-100" style="background-color: #eee;">
-  <div class="container py-5 h-100">
-    <div class="row d-flex justify-content-center align-items-center h-100">
-      <div class="col col-lg-9 col-xl-7">
-        <div class="card rounded-3">
-          <div class="card-body p-4">
+    <section class="vh-100" style="background-color: #eee;">
+        <div class="container py-5 h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col col-lg-9 col-xl-7">
+                    <div class="card rounded-10">
+                        <div class="card-body p-4">
+                            <h4 class="text-center my-3 pb-3">To Do App</h4>
+                            <form method="post" action="{% url 'add_task' %}"
+                                  class="row row-cols-lg-auto g-3 justify-content-center align-items-center mb-4 pb-2">
+                                {% csrf_token %}
+                                <div class="col-12">
+                                    <button type="submit" data-mdb-button-init data-mdb-ripple-init
+                                            class="btn btn-primary">Add Task
+                                    </button>
+                                </div>
+                            </form>
 
-            <h4 class="text-center my-3 pb-3">To Do App</h4>
-            
-          {% if user.is_authenticated %}
-            <form method="post"  action="{% url 'add_task' %}" class="row row-cols-lg-auto g-3 justify-content-center align-items-center mb-4 pb-2">
-                {% csrf_token %}
-              <div class="col-12">
-                <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary">Add Task</button>
-              </div>
-            </form>
+                            <table class="table mb-4">
+                                <thead>
+                                <tr>
+                                    <th scope="col">Title</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Description</th>
+                                    <th scope="col">Priority</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for task in tasks %}
+                                    <tr class="align-middle">
+                                        <td>{{ task.title }}</td>
+                                        <td>{{ task.status }}</td>
+                                        <td>{{ task.description }}</td>
+                                        <td>{{ task.priority }}</td>
+                                        <td><a href="{% url 'edit_task' task.id %}" class="btn btn-sm btn-success pb-1">Edit
+                                            Task</a></td>
+                                        <td>
+                                            <form method="post" action="{% url 'delete_task' task.id %}">
+                                                {% csrf_token %}
+                                                <button type="submit" class="btn btn-sm btn-danger pb-1">Delete</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
 
-            <table class="table mb-4">
-              <thead>
-                <tr>
-                  <th scope="col">Title</th>
-                  <th scope="col">Status</th>
-                  <th scope="col">Description</th>
-                  <th scope="col">Priority</th>
-                </tr>
-              </thead>
-              <tbody>
-              {% for task in tasks %}
-                <tr>
-                  <td>{{ task.title }}</td>
-                  <td>{{ task.status }}</td>
-                  <td>{{ task.description }}</td>
-                  <td>{{ task.priority }}</td>
-                </tr>
-              {% endfor %}
-              {% endif %}
-              </tbody>
-            </table>
-
-          </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  </div>
-</section>
+    </section>
 
 {% endblock %}

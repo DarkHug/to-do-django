@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 
 from .models import Task
 from .forms import TaskForm, SignUpForm
@@ -14,6 +14,41 @@ def home(request):
 def show_task(request):
     tasks = Task.objects.filter(user=request.user)
     return render(request, 'all_tasks.html', {'tasks': tasks})
+
+
+@login_required
+def add_task(request):
+    if request.method == 'POST':
+        form = TaskForm(request.POST)
+        if form.is_valid():
+            task = form.save(commit=False)
+            task.user = request.user
+            task.save()
+            return redirect('all_task')
+    else:
+        form = TaskForm()
+    return render(request, 'add_task.html', {'form': form})
+
+
+@login_required
+def edit_task(request, id):
+    task = get_object_or_404(Task, id=id)
+    if request.method == 'POST':
+        form = TaskForm(request.POST, instance=task)
+        if form.is_valid():
+            form.save()
+            return redirect('all_task')
+    else:
+        form = TaskForm(instance=task)
+    return render(request, 'edit_task.html', {'form': form, 'id': id})
+
+
+def delete_task(request, id):
+    task = get_object_or_404(Task, id=id)
+    if request.method == 'POST':
+        task.delete()
+        return redirect('all_task')
+    return redirect('all_task')
 
 
 def login_user(request):
@@ -39,20 +74,6 @@ def register(request):
     else:
         form = SignUpForm
     return render(request, 'register.html', {'form': form})
-
-
-@login_required
-def add_task(request):
-    if request.method == 'POST':
-        form = TaskForm(request.POST)
-        if form.is_valid():
-            task = form.save(commit=False)
-            task.user = request.user
-            task.save()
-            return redirect('all_task')
-    else:
-        form = TaskForm()
-    return render(request, 'add_task.html', {'form': form})
 
 
 def logout_user(request):
