@@ -13,15 +13,29 @@
                             <h1 class="text-center">To See Tasks Please Log In</h1>
                             <br>
                             <div class="col text-center">
-                            <a href="{% url 'login' %}">
-                                <button class="btn btn-success">Log In</button>
-                            </a>
+                                <a href="{% url 'login' %}">
+                                    <button class="btn btn-success">Log In</button>
+                                </a>
                             </div>
                         </div>
                     </div>
                 </div>
+                <div class="col col-lg-9 col-xl-7 mx-auto">
+                    <div class="card rounded-3">
+                        <div class="card-body p-2">
+                            <h3 class="text-center">If you don't have account, please register</h3>
+                            <br>
+                            <div class="col text-center">
+                                <a href="{% url 'register' %}" class="btn btn-info">Register</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
+
         </div>
+
     </section>
 
 {% endblock %}
