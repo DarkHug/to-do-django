@@ -1,5 +1,14 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
+from django.contrib.auth.models import AbstractUser
+
+
+class User(AbstractUser):
+    is_confirmed = models.BooleanField(blank=False, null=False, default=False)
+    verification_code = models.CharField(max_length=6, blank=True, null=True)
+
+    def __str__(self):
+        return self.username
 
 
 class Task(models.Model):
@@ -15,7 +24,7 @@ class Task(models.Model):
         ('high', 'High'),
     ]
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
     due_date = models.DateField(blank=True, null=True)

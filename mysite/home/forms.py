@@ -1,8 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 
-from .models import Task
-from django.contrib.auth.models import User
+from .models import Task, User
 
 
 class TaskForm(forms.ModelForm):
@@ -50,3 +49,7 @@ class SignUpForm(UserCreationForm):
         self.fields['password2'].label = ''
         self.fields[
             'password2'].help_text = '<span class="form-text text-muted"><small>Enter the same password as before, for verification.</small></span>'
+
+
+class VerificationForm(forms.Form):
+    code = forms.CharField(max_length=6)
