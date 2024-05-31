@@ -7,6 +7,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.core.mail import send_mail
+from mysite.settings import EMAIL_HOST_USER
 
 from .models import Task, User
 from .forms import TaskForm, SignUpForm, VerificationForm
@@ -58,21 +59,27 @@ def delete_task(request, id):
     return redirect('all_task')
 
 
+from django.contrib.auth import authenticate, login
+from django.shortcuts import render, redirect
+from django.contrib import messages
+
+
 def login_user(request):
     if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-
-        user = authenticate(request, username=username, password=password)
-        if user.is_confirmed:
-            if user is not None:
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = User.objects.get(username=username)
+        if user is not None:
+            if user.is_confirmed:
                 login(request, user)
-                messages.success(request, 'You Have Log In')
+                messages.success(request, 'Вы успешно вошли в систему')
                 return redirect('all_task')
             else:
-                return redirect('login')
+                return redirect('verification')
         else:
-            return redirect('verification')
+            messages.error(request, 'Пользователь не найден')
+            return render(request, 'login.html')
+
     return render(request, 'login.html')
 
 
@@ -88,12 +95,13 @@ def register(request):
             verification_code = generate_verification_code()
             user.verification_code = verification_code
             user.save()
+            print(user.email)
             send_mail(
                 "Verification",
                 f"This is your code {verification_code}",
-                "from@example.com",
-                ["to@example.com"],
-                fail_silently=False,
+                [EMAIL_HOST_USER],
+                [user.email],
+                fail_silently=True,
             )
             return redirect('verification')
     else:
