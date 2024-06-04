@@ -3,6 +3,7 @@ import string
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
@@ -22,6 +23,19 @@ def home(request):
 def show_task(request):
     tasks = Task.objects.filter(user=request.user)
     return render(request, 'all_tasks.html', {'tasks': tasks})
+
+
+@login_required
+def show_task_by_priority(request):
+    high_priority = Task.objects.filter(Q(user=request.user) & Q(priority='high'))
+    medium_priority = Task.objects.filter(Q(user=request.user) & Q(priority='medium'))
+    low_priority = Task.objects.filter(Q(user=request.user) & Q(priority='low'))
+    context = {
+        'low_priority': low_priority,
+        'medium_priority': medium_priority,
+        'high_priority': high_priority,
+    }
+    return render(request, 'by_priority.html', context)
 
 
 @login_required
@@ -57,11 +71,6 @@ def delete_task(request, id):
         task.delete()
         return redirect('all_task')
     return redirect('all_task')
-
-
-from django.contrib.auth import authenticate, login
-from django.shortcuts import render, redirect
-from django.contrib import messages
 
 
 def login_user(request):

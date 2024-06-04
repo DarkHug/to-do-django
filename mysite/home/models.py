@@ -8,7 +8,18 @@ class User(AbstractUser):
     verification_code = models.CharField(max_length=6, blank=True, null=True)
 
     def __str__(self):
+
         return self.username
+
+
+# class Category:
+#     name = models.CharField(max_length=255, blank=True)
+#
+#     def __str__(self):
+#         return self.name
+#
+#     class Meta:
+#         verbose_name_plural = 'categories'
 
 
 class Task(models.Model):
@@ -26,8 +37,8 @@ class Task(models.Model):
 
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
-    description = models.TextField(blank=True, null=True)
-    due_date = models.DateField(blank=True, null=True)
+    description = models.TextField(blank=True)
+    due_date = models.DateField(blank=True)
     status = models.CharField(
         max_length=12,
         choices=STATUS_CHOICES,

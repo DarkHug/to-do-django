@@ -1,0 +1,110 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block content %}
+    <section class="vh-100" style="background-color: #eee;">
+        <div class="container py-5 h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col col-lg-9 col-xl-7">
+                    <div class="card rounded-10">
+                        <div class="card-body p-4">
+                            <h4 class="text-center my-3 pb-3">To Do App</h4>
+                            <a href="{% url 'all_task' %}">
+                                <button class="btn btn-warning">Go Back</button>
+                            </a>
+                            <br><br>
+                            <div class="card text-center">
+                                <div class="card-header">
+                                    High
+                                </div>
+                                <table class="table mb-4">
+                                    <thead>
+                                    </thead>
+                                    <tbody>
+                                    <tr class="align-middle">
+                                        {% for task in high_priority %}
+                                            <td>{{ task.title }}</td>
+                                            <td>{{ task.status }}</td>
+                                            <td>{{ task.description }}</td>
+                                            <td>{{ task.priority }}</td>
+                                            <td><a href=""
+                                                   class="btn btn-sm btn-success pb-1">Edit
+                                                Task</a></td>
+                                            <td>
+                                                <form method="post" action="">
+                                                    {% csrf_token %}
+                                                    <button type="submit" class="btn btn-sm btn-danger pb-1">Delete
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        {% endfor %}
+
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="card text-center">
+                                <div class="card-header">
+                                    Medium
+                                </div>
+                                <table class="table mb-4">
+                                    <thead>
+                                    </thead>
+                                    <tbody>
+                                    <tr class="align-middle">
+                                        {% for task in medium_priority %}
+                                            <td>{{ task.title }}</td>
+                                            <td>{{ task.status }}</td>
+                                            <td>{{ task.description }}</td>
+                                            <td>{{ task.priority }}</td>
+                                            <td><a href=""
+                                                   class="btn btn-sm btn-success pb-1">Edit
+                                                Task</a></td>
+                                            <td>
+                                                <form method="post" action="">
+                                                    {% csrf_token %}
+                                                    <button type="submit" class="btn btn-sm btn-danger pb-1">Delete
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        {% endfor %}
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="card text-center">
+                                <div class="card-header">
+                                    Low
+                                </div>
+                                <table class="table mb-4">
+                                    <thead>
+                                    </thead>
+                                    <tbody>
+                                    <tr class="align-middle">
+                                        {% for task in low_priority %}
+                                            <td>{{ task.title }}</td>
+                                            <td>{{ task.status }}</td>
+                                            <td>{{ task.description }}</td>
+                                            <td>{{ task.priority }}</td>
+                                            <td><a href=""
+                                                   class="btn btn-sm btn-success pb-1">Edit
+                                                Task</a></td>
+                                            <td>
+                                                <form method="post" action="">
+                                                    {% csrf_token %}
+                                                    <button type="submit" class="btn btn-sm btn-danger pb-1">Delete
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        {% endfor %}
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
