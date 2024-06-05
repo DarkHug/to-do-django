@@ -19,9 +19,6 @@
                                             class="btn btn-primary">Add Task
                                     </button>
                                 </div>
-                                <div class="col-12">
-                                    <a href="{% url 'by_priority' %}" class="btn btn-info">By Priority</a>
-                                </div>
                             </form>
 
 
@@ -46,7 +43,7 @@
                                         <td>
                                             <form method="post" action="{% url 'delete_task' task.id %}">
                                                 {% csrf_token %}
-                                                <button type="submit" class="btn btn-sm btn-danger pb-1">Delete</button>
+                                                <button type="submit" class="btn btn-sm btn-danger pb-1">Complete</button>
                                             </form>
                                         </td>
                                     </tr>

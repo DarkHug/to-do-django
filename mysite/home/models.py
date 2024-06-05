@@ -12,16 +12,6 @@ class User(AbstractUser):
         return self.username
 
 
-# class Category:
-#     name = models.CharField(max_length=255, blank=True)
-#
-#     def __str__(self):
-#         return self.name
-#
-#     class Meta:
-#         verbose_name_plural = 'categories'
-
-
 class Task(models.Model):
     STATUS_CHOICES = [
         ('Pending', 'Pending'),

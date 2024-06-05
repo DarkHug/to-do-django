@@ -19,6 +19,11 @@ def home(request):
     return render(request, 'home.html', {})
 
 
+def get_user_first_name(request):
+    user = User.objects.get(first_name=request.user)
+    return render(request, 'all_tasks.html', {'user': user})
+
+
 @login_required
 def show_task(request):
     tasks = Task.objects.filter(user=request.user)
